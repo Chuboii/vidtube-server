@@ -21,7 +21,7 @@ app.use(cookieParser());
 dotenv.config();
 
 app.use(cors({
-  origin: "https://shiny-cuchufli-5641d1.netlify.app/",
+  origin: "https://shiny-cuchufli-5641d1.netlify.app",
   credentials: true
 }));
 
