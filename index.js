@@ -19,9 +19,9 @@ const app = express();
 app.use(cookieParser());
 
 dotenv.config();
-
+// https://shiny-cuchufli-5641d1.netlify.app
 app.use(cors({
-  origin: "https://shiny-cuchufli-5641d1.netlify.app",
+  origin: "http://localhost:5173",
   credentials: true
 }));
 
@@ -34,23 +34,6 @@ const connect = () => {
     .then(() => console.log("connected to DB"))
     .catch((e) => console.log("connection error", e));
 };
-
-// const options = { mongoUrl: process.env.MONGO }
-
-// app.use(session({
-//   secret: 'lslldlmsmslflsflfs',
-//   saveUninitialized: false,
-//   resave: false,
-//   store: MongoStore.create(options)
-// }))
-
-
-// app.use(passport.initialize())
-// app.use(passport.session())
-// passport.use(new LocalStrategy(User.authenticate()))
-// passport.serializeUser(User.serializeUser())
-// passport.deserializeUser(User.deserializeUser())
-
 
 app.use(express.json());
 app.use("/api", authRouter);

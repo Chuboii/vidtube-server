@@ -13,6 +13,12 @@ const NotificationSchema = new mongoose.Schema({
     },
     photoUrl: {
         type:String
+    },
+    thumbnail: {
+        type:String
+    },
+    videoName: {
+        type:String
     }
 }, { timestamps: true })
 
