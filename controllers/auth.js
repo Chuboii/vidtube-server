@@ -17,8 +17,9 @@ export const signin = async (req, res, next) => {
 
     if (!user) return next(createError(404, "User does not have an account"))
     
-    const match = bcrypt.compare(passkey, user.password);
+    const match = await bcrypt.compare(passkey, user.password);
 
+    console.log(match)
     if (!match) return next(createError(400, "Invalid credentials"))
   
     const { password, ...others } = user._doc
@@ -48,7 +49,12 @@ export const signup = async (req, res, next) => {
     const saltRounds = 10;
 
     const salt = bcrypt.genSaltSync(saltRounds);
-    const hash =  bcrypt.hashSync(password, salt);
+    const hash = bcrypt.hashSync(password, salt);
+    
+    const doesEmailExist = await UserSchema.find({ email })
+    
+
+    if(doesEmailExist.length > 0) return res.status(403).json("Email is being used by another user")
 
     const newUser = new UserSchema({
       name,
@@ -83,6 +89,7 @@ export const googleAuth = async (req, res, next) => {
       const token = jwt.sign({ user }, process.env.JWT)
 
       res.cookie("access_token", token).status(200).json(user)
+    
     }
     else {
     
@@ -101,9 +108,8 @@ export const googleAuth = async (req, res, next) => {
 
       const token = jwt.sign({ user: newUser }, process.env.JWT)
       
-      res.cookie("access_token", token, {
-        httpOnly: true
-      }).status(200).json(newUser)
+      res.cookie("access_token", token).status(200).json(newUser)
+    
     }
   }
   catch (e) {
