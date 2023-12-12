@@ -15,12 +15,12 @@ router.get("/user/find/:id", getUser)
 
 router.get("/user/find", getUsers)
 
-router.put("/user/update/:id", verifyToken, updateUser)
+router.put("/user/update/:id", updateUser)
 
-router.delete("/user/delete/:id", verifyToken, deleteUser)
+router.delete("/user/delete/:id", deleteUser)
 
-router.put("/user/incresub/:id", verifyToken, increSub)
+router.put("/user/incresub/:id", increSub)
 
-router.put("/user/decresub/:id", verifyToken, decreSub)
+router.put("/user/decresub/:id", decreSub)
 
 export default router

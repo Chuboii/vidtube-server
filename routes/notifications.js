@@ -4,7 +4,7 @@ import { getNotification, postNotification } from '../controllers/notify.js'
 
 const router = express.Router()
 
-router.get("/notification", verifyToken, getNotification)
+router.get("/notification", getNotification)
 
 router.post("/notification", postNotification)
 

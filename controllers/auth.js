@@ -19,7 +19,6 @@ export const signin = async (req, res, next) => {
     
     const match = await bcrypt.compare(passkey, user.password);
 
-    console.log(match)
     if (!match) return next(createError(400, "Invalid credentials"))
   
     const { password, ...others } = user._doc
@@ -27,7 +26,6 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({user}, process.env.JWT)
   
     res.cookie("access_token", token).status(200).json(others)
-
 
   }
   catch (e) {
