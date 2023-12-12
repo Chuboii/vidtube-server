@@ -12,10 +12,10 @@ export const addComments = async (req, res, next) => {
     } = req.params
 
     const newComment = new commentSchema({
-      userId: req.user.user._id,
+      userId: req.session.user._id,
       videoId: id,
-      photoURL: req.user.user.img,
-      name: req.user.user.name,
+      photoURL: req.session.user.img,
+      name: req.session.user.name,
       ...req.body
     })
 
@@ -37,7 +37,6 @@ export const getComments = async (req, res, next) => {
       id
     } = req.params
 
-    console.log(id)
     const comments = await commentSchema.find({videoId: id}).sort({createdAt: -1})
 
 
@@ -59,6 +58,7 @@ export const deleteComments = async(req, res, next) => {
     } = req.params
 
     if (id === req.user.id) {
+
       const comment = await commentSchema.findByIdAndDelete(id)
 
       res.status(200).json("Your video have been deleted successfully")
@@ -80,7 +80,7 @@ export const editComments = async(req, res, next) => {
       id
     } = req.params
 
-    if (id === req.user.id) {
+    if (id === req.session.user._id) {
 
       const comment = await commentSchema.findByIdAndUpdate(id, {
         $set: req.body
@@ -106,7 +106,6 @@ export const previewComment = async (req, res, next) => {
     const findComment = await commentSchema.find({ videoId: id }).sort({
       createdAt: -1
     }).limit(1)
-    console.log(findComment)
     
     if (!findComment) return next(createError(404, "Comment not found"))
     

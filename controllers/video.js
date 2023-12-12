@@ -11,9 +11,9 @@ import userSchema from "../models/User.js"
 export const addVideo = async(req, res, next)=> {
   try {
     const newVideo = new videoSchema({
-      userId: req.user.user._id,
-      name: req.user.user.name,
-      photoUrl:req.user.user.img,
+      userId: req.session.user._id,
+      name: req.session.user.name,
+      photoUrl:req.session.user.img,
       ...req.body
     })
   
@@ -52,7 +52,7 @@ export const getVideo = async(req, res, next)=> {
 export const getChannelVideo = async (req, res, next) => {
   try {
     const video = await videoSchema.find({
-      userId: req.user.user._id
+      userId: req.session.user._id
     })
 
     if (video.length === 0) return next(createError(404, "Video not found"))
@@ -93,7 +93,7 @@ export const editVideo = async(req, res, next)=> {
       id
     } = req.params
 
-    if (id === req.user.id) {
+    if (id === req.session.user._id) {
       const updatedVideo = await videoSchema.findByIdAndUpdate(
         id, // todo: use req.user.id
         {
@@ -241,7 +241,7 @@ export const trendingVideos = async(req, res, next)=> {
 export const subVideos = async(req, res, next)=> {
   try {
 
-    const user = await userSchema.findById(req.user.user._id) 
+    const user = await userSchema.findById(req.session.user._id) 
 
     const subscribedChannels = user.subscribedUsers
 
@@ -295,8 +295,6 @@ export const searchVideos = async (req, res, next) => {
       q
     } = req.query
     
-    console.log(req.query)
-
     const videos = await videoSchema.find({
       title: {
         $regex: q,

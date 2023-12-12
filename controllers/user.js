@@ -56,7 +56,7 @@ export const updateUser = async(req, res, next)=> {
 
 
 
-    if (id === req.user.id) {
+    if (id === req.session.user._id) {
 
       const user = await userSchema.findByIdAndUpdate(
         id,
@@ -87,7 +87,7 @@ export const deleteUser = async(req, res, next)=> {
       id
     } = req.params
     
-    if (id === req.user.id) {
+    if (id === req.session.user._id) {
       const user = await userSchema.findByIdAndDelete(id) // todo: use req.user.id
 
       res.status(200).json({
@@ -115,7 +115,7 @@ export const increSub = async (req, res, next) => {
     try {
      
       await userSchema.findByIdAndUpdate(
-        req.user.user._id,
+        req.session.user._id,
         {
           $push: {
             subscribedUsers: id
@@ -155,7 +155,7 @@ export const decreSub = async (req, res, next) => {
     } = req.params
 
     // console.log(id)
-    await userSchema.findByIdAndUpdate(req.user.user._id, {
+    await userSchema.findByIdAndUpdate(req.session.user._id, {
       $pull: {
         subscribedUsers:id
       }

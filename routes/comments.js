@@ -10,13 +10,13 @@ import { verifyToken } from "../verifyToken.js"
 
 const router = express.Router()
 
-router.post("/comment/:id/new", addComments)
+router.post("/comment/:id/new", verifyToken, addComments)
 
 router.get("/comment/find/:id", getComments)
 
-router.put("/comment/edit/:id", editComments)
+router.put("/comment/edit/:id", verifyToken, editComments)
 
-router.delete("/comment/delete/:id", deleteComments)
+router.delete("/comment/delete/:id", verifyToken, deleteComments)
 
 router.get("/comment/previewcomment/:id", previewComment)
 

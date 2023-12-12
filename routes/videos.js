@@ -21,17 +21,17 @@ const router = express.Router()
 
 router.get("/video/find/:id", getVideo)
 
-router.get("/video/channel", getChannelVideo)
+router.get("/video/channel", verifyToken, getChannelVideo)
 
-router.post("/video", addVideo)
+router.post("/video", verifyToken, addVideo)
 
-router.delete("/video/delete/:id", deleteVideo)
+router.delete("/video/delete/:id", verifyToken, deleteVideo)
 
-router.put("/video/edit/:id", editVideo)
+router.put("/video/edit/:id", verifyToken, editVideo)
 
-router.put("/video/like/:id", increLikes)
+router.put("/video/like/:id", verifyToken, increLikes)
 
-router.put("/video/delike/:id", decreLikes)
+router.put("/video/delike/:id", verifyToken, decreLikes)
 
 router.put("/video/views/:id", increViews)
 
@@ -39,7 +39,7 @@ router.get("/video/random", randomVideos)
 
 router.get("/video/trending", trendingVideos)
 
-router.get("/video/subvideo", subVideos)
+router.get("/video/subvideo", verifyToken, subVideos)
 
 router.get("/video/:id/recommendation", recommendVideos)
 

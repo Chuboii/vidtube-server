@@ -8,11 +8,11 @@ import commentRouter from "./routes/comments.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import session from "express-session";
-import MongoStore from 'connect-mongo'
-import passport from 'passport'
+import MongoStore from "connect-mongo";
+import passport from "passport";
 import User from "./models/User.js";
-import LocalStrategy from 'passport-local'
-import notifyRouter from './routes/notifications.js'
+import LocalStrategy from "passport-local";
+import notifyRouter from "./routes/notifications.js";
 
 const app = express();
 
@@ -20,11 +20,13 @@ app.use(cookieParser());
 
 dotenv.config();
 
+// Update CORS origin for production
 app.use(cors({
-  origin: "https://viddtube.netlify.app",
-  credentials: true
+  origin: "http://localhost:5173",
+  credentials: true,
 }));
 
+// Use a dedicated session secret
 app.use(express.urlencoded({
   extended: true
 }));
@@ -35,12 +37,26 @@ const connect = () => {
     .catch((e) => console.log("connection error", e));
 };
 
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO,
+  }),
+  cookie: {
+    httpOnly:true,
+    maxAge: 1000 * 60 * 60 * 24
+  },
+}));
+
 app.use(express.json());
 app.use("/api", authRouter);
 app.use("/api", userRouter);
 app.use("/api", videoRouter);
 app.use("/api", commentRouter);
-app.use("/api", notifyRouter)
+app.use("/api", notifyRouter);
 
 app.use("*", (req, res) => {
   res.status(404).send("Page not found");

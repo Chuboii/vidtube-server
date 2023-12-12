@@ -22,8 +22,8 @@ export const signin = async (req, res, next) => {
     if (!match) return next(createError(400, "Invalid credentials"))
   
     const { password, ...others } = user._doc
-    
-    req.user = user
+
+    req.session.user = user
 
     res.status(200).json(others)
     // const token = jwt.sign({user}, process.env.JWT)
@@ -72,7 +72,8 @@ export const signup = async (req, res, next) => {
       
     //  res.cookie("access_token", token).status(200).json(newUser)
     
-    req.user = newUser
+
+    req.session.user = newUser
 
     res.status(200).json(newUser)
   }
@@ -90,11 +91,9 @@ export const googleAuth = async (req, res, next) => {
     console.log(req.session)
     
     if (user) {
-      req.user = user
+    
+      req.session.user = user
       res.status(200).json(user)
-      // const token = jwt.sign({ user }, process.env.JWT)
-
-      // res.cookie("access_token", token).status(200).json(user)
     
     }
     else {
@@ -112,12 +111,9 @@ export const googleAuth = async (req, res, next) => {
 
       await newUser.save()
 
-      req.user = user
+      req.session.user = newUser
+
       res.status(200).json(newUser)
-      // const token = jwt.sign({ user: newUser }, process.env.JWT)
-      
-      // res.cookie("access_token", token).status(200).json(newUser)
-    
     }
   }
   catch (e) {
@@ -126,6 +122,9 @@ export const googleAuth = async (req, res, next) => {
 }
 
 export const logout = (req, res, next) => {
-     res.status(200).json('Successfully logged out')
+  req.session.destroy(() => {
+    res.status(200).json("logged out");
+  });
+  
   };
   
