@@ -13,7 +13,7 @@ export const addVideo = async(req, res, next)=> {
     const newVideo = new videoSchema({
       userId: req.user.user._id,
       name: req.user.user.name,
-      photoUrl:req.user.user.photoUrl,
+      photoUrl:req.user.user.img,
       ...req.body
     })
   
