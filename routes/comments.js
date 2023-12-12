@@ -6,17 +6,17 @@ import {
   deleteComments,
   previewComment
 } from "../controllers/comment.js"
-import { verifyToken } from "../verifyToken.js"
+
 
 const router = express.Router()
 
-router.post("/comment/:id/new", verifyToken, addComments)
+router.post("/comment/:id/new", addComments)
 
 router.get("/comment/find/:id", getComments)
 
-router.put("/comment/edit/:id", verifyToken, editComments)
+router.put("/comment/edit/:id", editComments)
 
-router.delete("/comment/delete/:id", verifyToken, deleteComments)
+router.delete("/comment/delete/:id", deleteComments)
 
 router.get("/comment/previewcomment/:id", previewComment)
 
