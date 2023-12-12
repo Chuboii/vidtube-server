@@ -23,9 +23,10 @@ export const signin = async (req, res, next) => {
   
     const { password, ...others } = user._doc
     
-    const token = jwt.sign({user}, process.env.JWT)
+    req.user = user
+    // const token = jwt.sign({user}, process.env.JWT)
   
-    res.cookie("access_token", token).status(200).json(others)
+    // res.cookie("access_token", token).status(200).json(others)
 
   }
   catch (e) {
@@ -65,10 +66,13 @@ export const signup = async (req, res, next) => {
 
     await newUser.save()
 
-    const token = jwt.sign({ user: newUser }, process.env.JWT)
+    // const token = jwt.sign({ user: newUser }, process.env.JWT)
       
-     res.cookie("access_token", token).status(200).json(newUser)
+    //  res.cookie("access_token", token).status(200).json(newUser)
     
+    req.user = newUser
+
+    res.status(200).json(newUser)
   }
   
   catch(e) {
@@ -84,9 +88,11 @@ export const googleAuth = async (req, res, next) => {
     console.log(req.session)
     
     if (user) {
-      const token = jwt.sign({ user }, process.env.JWT)
+      req.user = user
+      res.status(200).json(user)
+      // const token = jwt.sign({ user }, process.env.JWT)
 
-      res.cookie("access_token", token).status(200).json(user)
+      // res.cookie("access_token", token).status(200).json(user)
     
     }
     else {
@@ -104,9 +110,11 @@ export const googleAuth = async (req, res, next) => {
 
       await newUser.save()
 
-      const token = jwt.sign({ user: newUser }, process.env.JWT)
+      req.user = user
+      res.status(200).json(newUser)
+      // const token = jwt.sign({ user: newUser }, process.env.JWT)
       
-      res.cookie("access_token", token).status(200).json(newUser)
+      // res.cookie("access_token", token).status(200).json(newUser)
     
     }
   }
@@ -116,6 +124,6 @@ export const googleAuth = async (req, res, next) => {
 }
 
 export const logout = (req, res, next) => {
-     res.clearCookie("access_token").status(200).json('Successfully logged out')
+     res.status(200).json('Successfully logged out')
   };
   
