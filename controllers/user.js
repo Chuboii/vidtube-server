@@ -112,7 +112,9 @@ export const increSub = async (req, res, next) => {
       id
     } = req.params
 
-    const {userId} = req.body
+    const { userId } = req.body
+    
+  
     try {
      
       await userSchema.findByIdAndUpdate(

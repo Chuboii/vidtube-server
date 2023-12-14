@@ -22,7 +22,7 @@ dotenv.config();
 
 // Update CORS origin for production
 app.use(cors({
-  origin: "https://viddtube.netlify.app",
+  origin: "http://localhost:5173",
   credentials: true,
 }));
 

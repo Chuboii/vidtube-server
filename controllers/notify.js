@@ -20,7 +20,7 @@ export const postNotification = async (req, res, next) => {
 
 export const getNotification = async (req, res, next) => {
     try {
-        const {userId} = req.body
+        const {userId} = req.query
         const getNotify = await NotificationSchema.find({ userId}).sort({createdAt: -1})
         
         res.status(200).json(getNotify)

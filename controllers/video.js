@@ -57,7 +57,8 @@ export const getVideo = async(req, res, next)=> {
 
 export const getChannelVideo = async (req, res, next) => {
   try {
-    const {userId} = req.body
+    const { userId } = req.query
+    
     const video = await videoSchema.find({
       userId
     })
@@ -248,7 +249,7 @@ export const trendingVideos = async(req, res, next)=> {
 export const subVideos = async(req, res, next)=> {
   try {
 
-    const {id} = req.body
+    const {id} = req.query
 
     const user = await userSchema.findById(id) 
 
