@@ -10,6 +10,7 @@ import userSchema from "../models/User.js"
 
 export const addVideo = async(req, res, next)=> {
   try {
+
     const newVideo = new videoSchema({
       ...req.body
     })

@@ -31,6 +31,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 
+
 const connect = () => {
   mongoose.connect(process.env.MONGO)
     .then(() => console.log("connected to DB"))
