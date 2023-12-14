@@ -57,8 +57,9 @@ export const getVideo = async(req, res, next)=> {
 
 export const getChannelVideo = async (req, res, next) => {
   try {
+    const {userId} = req.body
     const video = await videoSchema.find({
-      userId: req.session.user._id
+      userId
     })
 
     if (video.length === 0) return next(createError(404, "Video not found"))
