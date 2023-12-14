@@ -11,11 +11,18 @@ export const addComments = async (req, res, next) => {
       id
     } = req.params
 
+    const {
+      userId,
+      videoId,
+      photoURL,
+      name
+    } = req.body
+    
     const newComment = new commentSchema({
-      userId: req.session.user._id,
-      videoId: id,
-      photoURL: req.session.user.img,
-      name: req.session.user.name,
+      userId,
+      videoId,
+      photoURL,
+      name,
       ...req.body
     })
 

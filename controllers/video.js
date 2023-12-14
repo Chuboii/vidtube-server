@@ -247,11 +247,12 @@ export const trendingVideos = async(req, res, next)=> {
 export const subVideos = async(req, res, next)=> {
   try {
 
-    const user = await userSchema.findById(req.session.user._id) 
+    const {id} = req.body
+
+    const user = await userSchema.findById(id) 
 
     const subscribedChannels = user.subscribedUsers
 
-    console.log(subscribedChannels)
     if (subscribedChannels.length === 0) return next(createError(404, 'No subscribed users'))
     
     const list = await Promise.all(

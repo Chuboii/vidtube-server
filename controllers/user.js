@@ -112,10 +112,11 @@ export const increSub = async (req, res, next) => {
       id
     } = req.params
 
+    const {userId} = req.body
     try {
      
       await userSchema.findByIdAndUpdate(
-        req.session.user._id,
+        userId,
         {
           $push: {
             subscribedUsers: id
@@ -154,8 +155,10 @@ export const decreSub = async (req, res, next) => {
       id
     } = req.params
 
+    const {userId} = req.body
+
     // console.log(id)
-    await userSchema.findByIdAndUpdate(req.session.user._id, {
+    await userSchema.findByIdAndUpdate(userId, {
       $pull: {
         subscribedUsers:id
       }

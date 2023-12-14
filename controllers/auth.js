@@ -26,9 +26,7 @@ export const signin = async (req, res, next) => {
     req.session.user = user
 
     res.status(200).json(others)
-    // const token = jwt.sign({user}, process.env.JWT)
-  
-    // res.cookie("access_token", token).status(200).json(others)
+   
 
   }
   catch (e) {
@@ -67,11 +65,6 @@ export const signup = async (req, res, next) => {
 
 
     await newUser.save()
-
-    // const token = jwt.sign({ user: newUser }, process.env.JWT)
-      
-    //  res.cookie("access_token", token).status(200).json(newUser)
-    
 
     req.session.user = newUser
 
